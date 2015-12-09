@@ -35,17 +35,12 @@ function callback(results, status) {
 
 
 
-
-
 ffwdme.initialize({
     routing: 'GraphHopper',
     graphHopper: {
         apiKey: 'c62916b3-35a1-4bac-bd03-ab564755ec0d'
     }
 });
-
-
-
 
 
 ffwdme.on('routecalculation:success', function(response) {
