@@ -50,26 +50,12 @@ var CheckPlaces = function() {
 }
 
 /** Directions **/
-var GetDirection = function () {
-    this.initMap = function(posStart, posEnd) {
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 7,
-            center: {lat: 41.85, lng: -87.65}
-        });
-        directionsDisplay.setMap(map);
 
-        calculateAndDisplayRoute(directionsService, directionsDisplay, posStart, posEnd);
+var actualStep;
 
-        /*var onChangeHandler = function() {
-            calculateAndDisplayRoute(directionsService, directionsDisplay);
-        };*/
-    }
-}
-
-function calculateAndDisplayRoute(directionsService, directionsDisplay, posStart, posEnd) {
-    console.log(posStart);
+function calculateAndDisplayRoute( posStart, posEnd) {
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
   directionsService.route({
     origin: posStart,
     destination: posEnd,
@@ -77,36 +63,66 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay, posStart
   }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
-      console.log(response);
-        console.log(response.routes[0].legs[0].steps[1].start_location.lat())
+        var steps = response.routes[0].legs[0].steps
+        var isOnTheRoad =  checkIfOnTheRoad(steps);
+        startNavigation(steps);
+
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
 }
 
-//var watchID = navigator.geolocation.watchPosition(checkPosition(position));
 
-//var checkPlaces = new CheckPlaces();
-/*var getDirection = new GetDirection();
-var watchID = navigator.geolocation.watchPosition(function(position) {
-
-    //checkPlaces.initMap(position.coords);
-    getDirection.initMap(position.coords);
-
-});*/
 
 var checkPosition = function(position){
     var currentLat = position.coords.latitude;
     var currentLng = position.coords.longitude;
+};
+
+
+var initNavigation = function(steps){
+    var watchID = navigator.geolocation.getCurrentPosition(function(position){
+        calculateAndDisplayRoute({lat:position.coords.latitude, lng:position.coords.longitude}, "place de la bastille, Paris");
+    });
 }
 
+function checkIfOnTheRoad(steps){
 
-var init = function(){
-    navigator.geolocation.getCurrentPosition(function(position){
-        var getDirection = new GetDirection();
-        getDirection.initMap({lat:position.coords.latitude, lng:position.coords.longitude}, "place de la bastille, Paris");
-    })
+    if(actualStep){
+        if(actualStep.lat == steps[1].end_point.lat && actualStep.lng == steps[1].end_point.lng){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else{
+        actualStep = {lat:steps[1].end_point.lat(), lgn:steps[1].end_point.lng()};
+        return true;
+    }
 }
 
-init();
+function startNavigation(steps){
+    console.log(steps);
+    var nextWaypointKey = 1;
+    navigator.geolocation.watchPosition(function(position){
+        var currentLat = position.coords.lat;
+        var currentLng = position.coords.lng;
+        var nextWaypoint = {lat : steps[nextWaypointKey].end_point.lat(), lng: steps[nextWaypointKey].end_point.lng()};
+        if(currentLat>(nextWaypoint.lat-0.0001) && currentLat<(nextWaypoint.lat+0.0001)  && currentLng>(nextWaypoint.lng-0.0001) && currentLng<(nextWaypoint.lng+0.0001)) {
+            switch (steps[nextWaypointKey].maneuver){
+                case 'turn-left':
+                    window.navigator.vibrate(200);
+                    break;
+                case 'turn-right':
+                    window.navigator.vibrate(200,100,200);
+                    break;
+            }
+
+        }
+    });
+
+}
+
+initNavigation();
