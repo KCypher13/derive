@@ -50,8 +50,8 @@ var CheckPlaces = function() {
 }
 
 /** Directions **/
-var GetDirection = function (coords) {
-    this.initMap = function() {
+var GetDirection = function () {
+    this.initMap = function(posStart, posEnd) {
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -60,34 +60,53 @@ var GetDirection = function (coords) {
         });
         directionsDisplay.setMap(map);
 
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        calculateAndDisplayRoute(directionsService, directionsDisplay, posStart, posEnd);
 
-        var onChangeHandler = function() {
+        /*var onChangeHandler = function() {
             calculateAndDisplayRoute(directionsService, directionsDisplay);
-        };
+        };*/
     }
 }
 
-function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+function calculateAndDisplayRoute(directionsService, directionsDisplay, posStart, posEnd) {
+    console.log(posStart);
   directionsService.route({
-    origin: 'Paris',
-    destination: 'Lyon',
-    travelMode: google.maps.TravelMode.DRIVING
+    origin: posStart,
+    destination: posEnd,
+    travelMode: google.maps.TravelMode.WALKING
   }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
       console.log(response);
+        console.log(response.routes[0].legs[0].steps[1].start_location.lat())
     } else {
       window.alert('Directions request failed due to ' + status);
     }
   });
 }
 
-var checkPlaces = new CheckPlaces();
-var getDirection = new GetDirection();
+//var watchID = navigator.geolocation.watchPosition(checkPosition(position));
+
+//var checkPlaces = new CheckPlaces();
+/*var getDirection = new GetDirection();
 var watchID = navigator.geolocation.watchPosition(function(position) {
 
     //checkPlaces.initMap(position.coords);
     getDirection.initMap(position.coords);
 
-});
+});*/
+
+var checkPosition = function(position){
+    var currentLat = position.coords.latitude;
+    var currentLng = position.coords.longitude;
+}
+
+
+var init = function(){
+    navigator.geolocation.getCurrentPosition(function(position){
+        var getDirection = new GetDirection();
+        getDirection.initMap({lat:position.coords.latitude, lng:position.coords.longitude}, "place de la bastille, Paris");
+    })
+}
+
+init();
