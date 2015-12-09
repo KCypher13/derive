@@ -11,7 +11,7 @@ var goto = {
             center : _this.from,
             zoom   : 12
         });
-    }
+    },
 
     setFrom : function(coordinates) {
         this.from = {
