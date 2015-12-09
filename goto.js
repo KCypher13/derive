@@ -119,6 +119,7 @@ function startNavigation(steps){
                     window.navigator.vibrate(200,100,200);
                     break;
             }
+            nextWaypointKey++;
 
         }
     });
