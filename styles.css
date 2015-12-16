@@ -47,3 +47,32 @@ header p {
 #menuIcon-wrap > svg {
 	width: 12%;
 }
+
+.show-message, form input {
+    background: rgba(94, 239, 182, 0.15) none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #fff;
+    left: 10px;
+    padding: 5px 10px;
+    position: absolute;
+    bottom: 10px;
+}
+form input {
+	border: 0 none;
+    float: right;
+    margin-right: 10px;
+    position: relative;
+    bottom: auto;
+    left: auto;
+}
+#message {
+	display: block;
+    left: 50%;
+    position: absolute;
+    top: 50px;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
