@@ -1,7 +1,7 @@
 var pubnub = {
 
     block   : null,
-    channel : '_graphiti',
+    channel : '__graphiti',
 
     init : function() {
         // Création du block pubnub
