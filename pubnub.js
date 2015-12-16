@@ -4,8 +4,6 @@ var pubnub = {
     channel : '_graphiti',
 
     init : function() {
-        console.log(this.channel);
-
         // Création du block pubnub
         this.block = PUBNUB.init({
             publish_key   : 'pub-c-96312819-5c80-4412-b383-30fa546c219b',
@@ -22,7 +20,6 @@ var pubnub = {
     },
 
     publish : function(message) {
-        console.log('post !');
         pubnub.block.publish({
             channel : pubnub.channel,
             message : message
@@ -32,7 +29,9 @@ var pubnub = {
     retrieve : function() {
         pubnub.block.history({
             channel  : pubnub.channel,
-            callback : function(m) {console.log(m);}
+            callback : function(m) {
+                localforage.setItem('graphiti', m[0]);
+            }
         })
     }
 

@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <title>Google Places</title>
 
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPK2573t6cqfcSfLyVjKUIHA80dCp69EU&libraries=places&callback=getLocation" async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPK2573t6cqfcSfLyVjKUIHA80dCp69EU&libraries=places&callback=map.init" async defer></script>
+        <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 
         <script src="vendors/ffwdme-core.js"></script>
         <script src="vendors/ffwdme-components.js"></script>
@@ -22,8 +23,9 @@
         <div id="map"></div>
         <div id="places"></div>
 
+        <div class="show-message">Show</div>
         <form id="message">
-            <textarea name="message" id="textarea" rows="8" cols="40"></textarea>
+            <textarea name="message" rows="8" cols="40"></textarea>
             <input type="submit" name="submit" value="POST">
         </form>
 

@@ -1,19 +1,23 @@
 var message = {
 
-    $message : null,
+    $form     : null,
+    $textarea : null,
+    $showForm : null,
 
     init : function() {
+        this.$showForm = $('.show-message');
+        this.$form     = $('#message');
+        this.$textarea = this.$form.find('textarea');
 
-        this.$message = document.getElementById('message');
-
-        this.$message.addEventListener('submit', message.sendMessage);
+        this.$form.on('submit', message.sendMessage);
+        this.$showForm.on('click', message.toggleForm);
     },
 
     sendMessage : function(e) {
         e.preventDefault();
 
-        var graphitiContent = document.getElementById('textarea').value;
-        var message = {
+        var graphitiContent = message.$textarea.val();
+        var messageContent = {
             graphiti : graphitiContent,
             coords   : {
                 lat : position.coords.latitude,
@@ -21,7 +25,13 @@ var message = {
             }
         };
 
-        pubnub.publish(message);
+        pubnub.publish(messageContent);
+        message.$form.toggle();
+    },
+
+    toggleForm : function() {
+        message.$form.toggle();
+        message.$textarea.focus();
     }
 
 };
