@@ -9,6 +9,17 @@
         <script src="vendors/ffwdme-core.js"></script>
         <script src="vendors/ffwdme-components.js"></script>
         <script src="vendors/localForage.js"></script>
+        <script src="https://cdn.pubnub.com/pubnub-dev.js"></script>
+
+        <!-- Instantiate PubNub -->
+        <script type="text/javascript">
+
+            var PUBNUB_demo = PUBNUB.init({
+                publish_key: 'pub-c-96312819-5c80-4412-b383-30fa546c219b',
+                subscribe_key: 'sub-c-ce0cd012-a3da-11e5-9196-02ee2ddab7fe'
+            });
+
+        </script>
         <script src="goto.js"></script>
 
         <link rel="stylesheet" type="text/css" href="styles.css">
