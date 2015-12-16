@@ -10,6 +10,10 @@
         <script src="vendors/ffwdme-components.js"></script>
         <script src="vendors/localForage.js"></script>
         <script src="goto.js"></script>
+        <script src="messages.js"></script>
+        <script src="position.js"></script>
+        <script src="https://cdn.pubnub.com/pubnub-dev.js"></script>
+        <script src="pubnub.js"></script>
 
         <link rel="stylesheet" type="text/css" href="styles.css">
 
@@ -18,6 +22,10 @@
         <div id="map"></div>
         <div id="places"></div>
 
+        <form id="message">
+            <textarea name="message" id="textarea" rows="8" cols="40"></textarea>
+            <input type="submit" name="submit" value="POST">
+        </form>
 
     </body>
 </html>
